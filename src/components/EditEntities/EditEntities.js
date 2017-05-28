@@ -81,9 +81,9 @@ class EditEntities extends Component {
       if (this.state.isConfirmDeleteVisible) {
         confirmDelete = (
           <div>
-            <input type="text" className="" value={this.state.confirmDeleteValue}
+            <input type="text" className="input confirm-delete__input small" value={this.state.confirmDeleteValue}
                   onChange={(e) => this.setState({confirmDeleteValue: e.target.value})}/>
-            <button className="button warning confirm-delete" disabled={props.isDeleteEntityInProgress}
+            <button className="button confirm-delete small" disabled={props.isDeleteEntityInProgress}
                     onClick={() => this._onConfirmDelete(props.currentEntity)}>
               {props.isDeleteEntityInProgress ? 'Working...' : 'Confirm delete'}
             </button>
@@ -93,14 +93,14 @@ class EditEntities extends Component {
 
 
       editEntityButtons = (
-        <div className="medium-6 columns flex-container space-between align-top">
-          {confirmDelete}
-          <button className="button edit-entity-button warning" onClick={() => this._onClickDelete()}>
-            {this.state.isConfirmDeleteVisible ? 'Cancel' : 'Delete'}
-          </button>
-          <button className="button edit-entity-button" onClick={() => props.onClickEditEntity(props.currentEntity)}>
+        <div className="medium-12 large-8 columns flex-container align-top">
+          <button className="button edit-entity-control" onClick={() => props.onClickEditEntity(props.currentEntity)}>
             Edit {_.lowerCase(props.editingEntityType)}
           </button>
+          <button className="button edit-entity-control transparent" onClick={() => this._onClickDelete()}>
+            {this.state.isConfirmDeleteVisible ? 'Cancel' : 'Delete'}
+          </button>
+          {confirmDelete}
         </div>
       )
 
@@ -167,7 +167,7 @@ class EditEntities extends Component {
         <div className="row">
           <div className="medium-9 columns">
             <Select name="form-field-name" className="select-entity"
-                    placeholder={`Select a ${_.lowerCase(props.editingEntityType)}...`}
+                    placeholder={`Select ${_.lowerCase(props.editingEntityType)}...`}
                     value={props.currentEntity}
                     labelKey={"displayName"}
                     options={props.entities}
@@ -186,7 +186,9 @@ class EditEntities extends Component {
           <div className="columns">
             {entityInfo}
           </div>
+        </div>
 
+        <div className="row">
           {editEntityButtons}
         </div>
 

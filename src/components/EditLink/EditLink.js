@@ -35,7 +35,7 @@ class EditLink extends Component {
         <Modal isOpen={props.isEditLinkInProgress} contentLabel="edit-link-modal">
           <div className="flex-container space-between">
             <p className="">{props.sourceEntity.displayName}</p>
-            <button className="button close" onClick={() => props.onClickClose()}>X</button>
+            <button className="button transparent" onClick={() => props.onClickClose()}>X</button>
           </div>
 
           {prompt}
@@ -58,10 +58,10 @@ class EditLink extends Component {
 
 
           <div className="row">
-            <div className="medium-9 large-9 columns">
+            <div className="medium-push-7 medium-5 large-4 columns">
               <div className="flex-container link-outcome-modal__controls">
-                <button className="button" onClick={(e) => {e.preventDefault(); props.onClickClose()}}>Cancel</button>
-                <button className="button form__save-button" disabled={props.isUpdateLinkInProgress}
+                <button className="button transparent" onClick={(e) => {e.preventDefault(); props.onClickClose()}}>Cancel</button>
+                <button className="button" disabled={props.isUpdateLinkInProgress}
                         onClick={(e) => props.onSaveEditLink({source: props.sourceEntity, target: props.targetEntity, type: props.relationshipType})}>
                         {props.isUpdateLinkInProgress ? 'Working...' : 'Save'}
                 </button>

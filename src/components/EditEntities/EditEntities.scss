@@ -1,9 +1,22 @@
 @import '../../styles/core';
 
-.edit-entity-button {
-  display: block;
-  margin-right: auto;
-  margin-left: 0;
+.edit-entity-control {
+  margin-bottom: 1.5rem;
+}
+
+.confirm-delete, .confirm-delete:hover, .confirm-delete:focus {
+  width: 100%;
+  color: $app-red;
+  font-weight: 500;
+  background: transparent;
+}
+
+.confirm-delete__input {
+  margin-bottom: .125rem;
+}
+
+.confirm-delete:hover {
+  opacity: .8;
 }
 
 .entity-info {

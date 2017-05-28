@@ -18,9 +18,17 @@
     "deploy": "better-npm-run deploy",
     "deploy:dev": "better-npm-run deploy:dev",
     "deploy:prod": "better-npm-run deploy:prod",
-    "codecov": "cat coverage/*/lcov.info | codecov"
+    "codecov": "cat coverage/*/lcov.info | codecov",
+    "ship": "better-npm-run ship; rimraf ../mapping-lab/graph-editor/dist; mv dist ../mapping-lab/graph-editor/"
   },
   "betterScripts": {
+    "ship": {
+      "command": "npm run clean && npm run compile",
+      "env": {
+        "NODE_ENV": "production",
+        "DEBUG": "app:*"
+      }
+    },
     "compile": {
       "command": "node bin/compile",
       "env": {

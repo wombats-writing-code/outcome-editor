@@ -20,7 +20,7 @@ class EditEntity extends Component {
         <Modal isOpen={props.isEditEntityInProgress || props.isNewEntityInProgress} contentLabel="edit-entity-modal">
           <div className="flex-container space-between align-center edit-entities__section-bar">
             <p className="bold edit-entities__section-title">Edit</p>
-            <button className="button close" onClick={() => this._onClose()}>X</button>
+            <button className="button close transparent" onClick={() => this._onClose()}>X</button>
           </div>
           {_.map(_.keys(props.entity), (propertyName, idx) => {
             if (_.startsWith(propertyName, '_') || uneditableProperties.indexOf(propertyName) > -1) {
@@ -39,8 +39,8 @@ class EditEntity extends Component {
             )
           })}
 
-          <div className="medium-4 medium-push-8 edit-entity-buttons flex-container space-between">
-            <button className="button edit-entity__button" onClick={() => this._onClose()}>Cancel</button>
+          <div className="medium-3 medium-push-9 large-2 edit-entity-buttons flex-container space-between">
+            <button className="button edit-entity__button transparent" onClick={() => this._onClose()}>Cancel</button>
             <button className="button edit-entity__button" disabled={!this._canSave()}
                     onClick={() => this._onClickSave(props.entity)}>
               {saveButtonText}

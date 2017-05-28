@@ -38,6 +38,16 @@ button:disabled, button:disabled:hover {
   background: #aaa;
 }
 
+.transparent, .transparent:focus, .transparent:hover {
+  background: transparent;
+  color: #222;
+  outline: none;
+}
+
+.transparent:hover {
+  opacity: .8;
+}
+
 
 .flex-container {
   display: flex;
