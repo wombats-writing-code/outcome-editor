@@ -1,0 +1,30 @@
+@import '../../styles/core';
+
+.edit-entity {
+  margin-bottom: 1.5rem;
+}
+
+.edit-entity-property {
+  margin-bottom: 1.5rem;
+}
+
+.edit-entity__label {
+  font-size: .875em;
+  margin-right: 1em;
+  font-weight: 600;
+  flex: 1;
+  text-align: right;
+}
+
+.edit-entity__input {
+  border-radius: 2px;
+  font-size: .875em;
+  padding: .5em .5em;
+  border: 1px solid #ddd;
+  flex: 4;
+}
+
+.edit-entity__input:focus {
+  outline: none;
+  border-color: $app-red;
+}

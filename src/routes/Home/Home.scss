@@ -1,0 +1,33 @@
+@import '../../styles/core';
+
+.duck {
+  display: block;
+  width: 120px;
+  margin: 1.5rem auto;
+}
+
+
+.entity-list {
+  text-align: left;
+
+}
+
+.entity-list__item-name {
+  cursor: default;
+}
+
+.entity-list__item-name:hover {
+  opacity: .8
+}
+
+.select-entity-type-button, .select-entity-type-button:focus {
+  background: #f8f8f8;
+  color: #333;
+  margin-right: 1rem;
+  text-transform: capitalize;
+}
+
+.select-entity-type-button.is-active {
+  color: #fff;
+  background: $app-blue-2;
+}

@@ -2,3 +2,22 @@
   font-weight: bold;
   text-decoration: underline;
 }
+
+.header {
+  background: #f0f0f0;
+  padding: .75rem 1rem;
+}
+
+.header p {
+  margin-bottom: 0;
+}
+
+.header__title {
+  margin-right: 1em;
+}
+
+.select-collection {
+  text-align: left;
+  font-size: .875rem;
+  width: 400px;
+}

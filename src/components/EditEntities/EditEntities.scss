@@ -1,0 +1,62 @@
+@import '../../styles/core';
+
+.edit-entity-button {
+  display: block;
+  margin-right: auto;
+  margin-left: 0;
+}
+
+.entity-info {
+  font-size: .875rem;
+  margin-bottom: 1.5rem;
+}
+
+.entity-info__label {
+  min-width: 8rem;
+  font-weight: 500;
+  color: #777;
+  text-align: left;
+}
+
+.entity-info__value {
+  margin-bottom: .125rem;
+}
+
+.edit-entities__section-bar {
+  padding: 0 0 .25rem 0;
+  // background: #f8f8f8;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid #aaa;
+}
+
+.edit-entities__section-title {
+  margin-bottom: 0;
+}
+
+.link-button {
+  font-size: .875rem;
+  padding: .5rem 1em;
+  margin-bottom: 0;
+  background: $app-green;
+  border-radius: 10px;
+}
+
+.link-button:hover {
+  background: lighten($app-green, 20%);
+}
+
+.entity-controls__button, .entity-controls__button:hover, .entity-controls__button:focus {
+  padding: .5em 1em;
+  background: transparent;
+  color: #333;
+  font-size: .875rem;
+}
+
+.entity-controls__button:hover {
+  opacity: .8;
+}
+
+.select-entity {
+  text-align: left;
+  margin-bottom: 1.5rem;
+}

@@ -12,10 +12,109 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  // font-family: 'Source Sans Pro', sans-serif;
 }
 
 *,
 *:before,
 *:after {
   box-sizing: inherit;
+}
+
+button {
+  padding-top: .5em;
+  padding-bottom: .5em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:disabled, button:disabled:hover {
+  cursor: default;
+  opacity: .5;
+  background: #aaa;
+}
+
+
+.flex-container {
+  display: flex;
+}
+
+.flex-container.align-center {
+  align-items: center;
+}
+
+.flex-container.align-top {
+  align-items: flex-start;;
+}
+
+.flex-container.justify-center {
+  justify-content: center;
+}
+
+.flex-container.space-between {
+  justify-content: space-between;
+}
+
+.flex-container.space-around {
+  justify-content: space-around;
+}
+
+.small {
+  font-size: .875rem;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+.mute {
+  color: #666;
+}
+
+.warning-color {
+  color: $app-red;
+}
+
+.light {
+  font-weight: 300;
+}
+
+a {
+  color: $app-blue-dark;
+}
+
+a:hover {
+  color: $app-blue-2;
+}
+
+// ===== common to all =====
+
+.no-style {
+  list-style: none;
+}
+
+.no-left-padding {
+  padding-left: 0;
+}
+
+.no-right-padding {
+  padding-right: 0;
+}
+
+.margin-bottom {
+  margin-bottom: 1.5rem;
+}
+
+.margin-top {
+  margin-top: 1.5rem;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

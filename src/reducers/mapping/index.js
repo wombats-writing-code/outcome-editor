@@ -1,0 +1,67 @@
+import {GET_MAPPING_OPTIMISTIC, GET_MAPPING_SUCCESS} from './getMapping'
+import {SAVE_ENTITY_SUCCESS} from '../editor/saveEntity'
+import {DELETE_ENTITY_SUCCESS} from '../editor/deleteEntity'
+
+export const SELECT_COLLECTION = 'SELECT_COLLECTION'
+
+export function selectCollection(collection) {
+  return {type: SELECT_COLLECTION, collection}
+}
+
+const defaultState = {
+  // currentCollection: {
+  //   displayName: 'SUTD',
+  //   hierarchy: ['institution', 'pillar', 'subject', 'outcome'],
+  //   domain: "58a7969bf36d287948269839"
+  // },
+  currentCollection: {
+    displayName: 'College Algebra',
+    domain: "58a7969bf36d287948269839",
+    hierarchy: ['INSTITUTION', 'MODULE', 'OUTCOME'],
+    relationship: {
+      parentType: 'HAS_PARENT_OF',
+      sourceRef: 'sourceId',
+      targetRef: 'targetId'
+    },
+    relationshipTypes: ['HAS_PREREQUISITE_OF', 'HAS_PARENT_OF'],
+    displayKey: 'displayName'
+  }
+}
+export default function mappingReducer(state = defaultState, action) {
+  switch(action.type) {
+    case SELECT_COLLECTION:
+      return _.assign({}, state, {
+        currentCollection: action.collection
+      })
+
+    case GET_MAPPING_OPTIMISTIC:
+      return _.assign({}, state, {
+        isGetMappingInProgress: true
+      })
+
+    case GET_MAPPING_SUCCESS:
+      return _.assign({}, state, {
+        isGetMappingInProgress: false,
+        map: action.map
+      })
+
+    case SAVE_ENTITY_SUCCESS:
+      return _.assign({}, state, {
+        map: _.assign({}, state, {
+          entities: _.concat(state.map.entities, action.entity)
+        })
+      })
+
+    case DELETE_ENTITY_SUCCESS:
+      return _.assign({}, state, {
+        map: _.assign({}, state, {
+          entities: _.reject(state.map.entities, {id: action.entity.id})
+        })
+      })
+
+    default:
+      return state
+  }
+}
+
+export const HAS_PARENT_OF = 'HAS_PARENT_OF'

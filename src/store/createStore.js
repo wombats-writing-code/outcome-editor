@@ -1,8 +1,10 @@
 import { applyMiddleware, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
+import persistState from 'redux-localstorage'
 import { browserHistory } from 'react-router'
 import makeRootReducer from './reducers'
 import { updateLocation } from './location'
+
 
 export default (initialState = {}) => {
   // ======================================================
@@ -22,7 +24,25 @@ export default (initialState = {}) => {
     if (typeof composeWithDevToolsExtension === 'function') {
       composeEnhancers = composeWithDevToolsExtension
     }
+
+    // enhancers.push(persistState(null, {
+    //   slicer: paths => state => {
+    //     if (state) {
+    //       let subset = {
+    //         mapping: state.mapping,
+    //         login: state.login,
+    //         location: state.location,
+    //       };
+    //
+    //       return subset;
+    //     }
+    //
+    //     return state;
+    //   },
+    // }))
   }
+
+
 
   // ======================================================
   // Store Instantiation and HMR Setup
