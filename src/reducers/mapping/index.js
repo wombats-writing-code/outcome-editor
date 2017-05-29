@@ -1,5 +1,6 @@
 import {GET_MAPPING_OPTIMISTIC, GET_MAPPING_SUCCESS} from './getMapping'
 import {SAVE_ENTITY_SUCCESS} from '../editor/saveEntity'
+import {UPDATE_ENTITY_SUCCESS} from '../editor/updateEntity'
 import {DELETE_ENTITY_SUCCESS} from '../editor/deleteEntity'
 
 export const SELECT_COLLECTION = 'SELECT_COLLECTION'
@@ -47,14 +48,27 @@ export default function mappingReducer(state = defaultState, action) {
 
     case SAVE_ENTITY_SUCCESS:
       return _.assign({}, state, {
-        map: _.assign({}, state, {
+        map: _.assign({}, state.map, {
           entities: _.concat(state.map.entities, action.entity)
+        })
+      })
+
+    case UPDATE_ENTITY_SUCCESS:
+      return _.assign({}, state, {
+        map: _.assign({}, state.map, {
+          entities: _.map(state.map.entities, e => {
+            if (e.id === action.entity.id) {
+              return action.entity
+            }
+
+            return e
+          })
         })
       })
 
     case DELETE_ENTITY_SUCCESS:
       return _.assign({}, state, {
-        map: _.assign({}, state, {
+        map: _.assign({}, state.map, {
           entities: _.reject(state.map.entities, {id: action.entity.id})
         })
       })

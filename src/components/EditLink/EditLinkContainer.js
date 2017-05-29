@@ -13,6 +13,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     collection: state.mapping.currentCollection,
+    map: state.mapping.map,
     entities: validEntitiesSelector(state),
     isEditLinkInProgress: state.editor.isEditLinkInProgress,
     sourceEntity: state.editor.currentSourceEntity,
@@ -35,11 +36,16 @@ const validEntitiesSelector = (state) => {
   if (state.editor.currentRelationshipType === state.mapping.currentCollection.relationship.parentType) {
     let parentEntityType = parentTypeSelector(state);
 
-    return _.filter(state.mapping.map.entities, {type: parentEntityType});
+    // valid entities are only of its parent type, and not itself
+    return _.filter(state.mapping.map.entities, e => {
+      return e.type === parentEntityType && e.id !== state.editor.currentSourceEntity.id;
+    });
   }
 
-  return _.filter(state.mapping.map.entities, {type: state.editor.currentSourceEntity.type});
-
+  // valid entities are of its same type, and not itself
+  return _.filter(state.mapping.map.entities, e => {
+    return e.type === state.editor.currentSourceEntity.type && e.id !== state.editor.currentSourceEntity.id;
+  });
 }
 
 

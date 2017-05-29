@@ -7,9 +7,9 @@ import xoces from 'xoces'
 const graphProvider = xoces.libs.graphProvider
 
 import {keywordSearch} from '../../selectors/'
-import {invisibleProperties} from '../../reducers/editor'
 
-import EditLink from '../../components/EditLink'
+import EntityInfo from '../EntityInfo'
+import EditLink from '..//EditLink'
 import EditEntity from '../EditEntity'
 import EntityList from '../EntityList'
 import VisualizeEntity from '../VisualizeEntity'
@@ -59,28 +59,13 @@ class EditEntities extends Component {
     let entityInfo, editEntityButtons, editParents, editPrerequisites, visualizeEntity;
     if (props.currentEntity) {
       entityInfo = (
-        <div className="entity-info">
-          {_.map(_.keys(props.currentEntity), (propertyName, idx) => {
-            if (_.startsWith(propertyName, '_') || invisibleProperties.indexOf(propertyName) > -1) {
-              return null
-            };
-
-            return (
-              <div key={`entity-info__property-${idx}`}>
-                <div className="flex-container ">
-                  <label className="entity-info__label">{propertyName}:</label>
-                  <p className="entity-info__value">{props.currentEntity[propertyName]}</p>
-                </div>
-              </div>
-            )
-          })}
-        </div>
+        <EntityInfo entity={props.currentEntity} />
       )
 
       let confirmDelete;
       if (this.state.isConfirmDeleteVisible) {
         confirmDelete = (
-          <div>
+          <div className="confirm-delete__wrapper">
             <input type="text" className="input confirm-delete__input small" value={this.state.confirmDeleteValue}
                   onChange={(e) => this.setState({confirmDeleteValue: e.target.value})}/>
             <button className="button confirm-delete small" disabled={props.isDeleteEntityInProgress}
@@ -131,12 +116,14 @@ class EditEntities extends Component {
           <div>
             <div className="flex-container space-between align-center edit-entities__section-bar">
               <p className="bold edit-entities__section-title">Prerequisites</p>
-              <button className="button link-button">Add a prereq</button>
+              <button className="button link-button" onClick={() => props.onClickEditLink()}>
+                Add a prereq
+              </button>
             </div>
 
             <EntityList currentEntity={props.currentEntity}
                         entities={this.graph ? this.graph.getOutgoingEntities(props.currentEntity.id, props.map.entities, props.map.relationships) : []}
-                        onClickLink={(entity) => props.onClickEditLink({source: props.currentEntity, target: entity, type: props.collection.relationship.parentType})}
+                        onClickLink={(entity) => props.onClickEditLink({source: props.currentEntity, target: entity})}
                       />
           </div>
         )

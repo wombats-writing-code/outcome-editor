@@ -5,14 +5,19 @@
 }
 
 .confirm-delete, .confirm-delete:hover, .confirm-delete:focus {
-  width: 100%;
   color: $app-red;
   font-weight: 500;
   background: transparent;
+  text-align: right;
+}
+
+.confirm-delete__wrapper {
+  flex: 2;
 }
 
 .confirm-delete__input {
   margin-bottom: .125rem;
+  width: 100%;
 }
 
 .confirm-delete:hover {

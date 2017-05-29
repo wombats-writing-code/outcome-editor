@@ -2,6 +2,7 @@
 import {SELECT_ENTITY, SELECT_ENTITY_TYPE} from './selectEntity'
 import { SELECT_NEW_ENTITY, CLOSE_NEW_ENTITY } from './selectNewEntity'
 import {SAVE_ENTITY_OPTIMISTIC, SAVE_ENTITY_SUCCESS} from './saveEntity'
+import {UPDATE_ENTITY_OPTIMISTIC, UPDATE_ENTITY_SUCCESS} from './updateEntity'
 import {DELETE_ENTITY_OPTIMISTIC, DELETE_ENTITY_SUCCESS} from './deleteEntity'
 import {
   SELECT_EDIT_ENTITY,
@@ -16,9 +17,8 @@ import {
 import {CHANGE_EDIT_ENTITY} from './changeEditEntity'
 
 
-
-export const invisibleProperties = ['type', 'learningObjectiveId', 'domain']
-export const uneditableProperties = ['type', 'learningObjectiveId', 'domain', 'id', 'createdBy']
+export const invisibleProperties = ['type', 'learningObjectiveId', 'domain', 'auditTrail']
+export const uneditableProperties = ['type', 'learningObjectiveId', 'domain', 'id', 'auditTrail']
 
 
 const defaultState = {
@@ -37,33 +37,11 @@ export default function editorReducer(state = defaultState, action) {
         currentEntity: action.entity,
       })
 
+    // ---- creating a new entity ----
     case SELECT_NEW_ENTITY:
       return _.assign({}, state, {
         isNewEntityInProgress: true,
         currentEntityCopy: stampNewEntity({type: action.entityType, domain: action.domain})
-      })
-
-    case CLOSE_NEW_ENTITY:
-      return _.assign({}, state, {
-        isNewEntityInProgress: false,
-        currentEntityCopy: null
-      })
-
-    case SELECT_EDIT_ENTITY:
-      return _.assign({}, state, {
-        currentEntityCopy: _.cloneDeep(action.entity),
-        isEditEntityInProgress: true
-      })
-
-    case CLOSE_EDIT_ENTITY:
-      return _.assign({}, state, {
-        currentEntityCopy: null,
-        isEditEntityInProgress: false
-      })
-
-    case CHANGE_EDIT_ENTITY:
-      return _.assign({}, state, {
-        currentEntityCopy: _.assign({}, state.currentEntityCopy, action.data)
       })
 
     case SAVE_ENTITY_OPTIMISTIC:
@@ -78,6 +56,44 @@ export default function editorReducer(state = defaultState, action) {
         currentEntity: action.entity
       })
 
+    case CLOSE_NEW_ENTITY:
+      return _.assign({}, state, {
+        isNewEntityInProgress: false,
+        currentEntityCopy: null
+      })
+
+    // ---- updating an entity ----
+    case SELECT_EDIT_ENTITY:
+      return _.assign({}, state, {
+        currentEntityCopy: _.cloneDeep(action.entity),
+        isEditEntityInProgress: true
+      })
+
+    case UPDATE_ENTITY_OPTIMISTIC:
+      return _.assign({}, state, {
+        isUpdateEntityInProgress: true
+      })
+
+    case UPDATE_ENTITY_SUCCESS:
+      return _.assign({}, state, {
+        isUpdateEntityInProgress: false,
+        isEditEntityInProgress: false,
+        currentEntity: action.entity
+      })
+
+    case CLOSE_EDIT_ENTITY:
+      return _.assign({}, state, {
+        currentEntityCopy: null,
+        isEditEntityInProgress: false
+      })
+
+    case CHANGE_EDIT_ENTITY:
+      return _.assign({}, state, {
+        currentEntityCopy: _.assign({}, state.currentEntityCopy, action.data)
+      })
+
+
+    // ---- deleting an entity ----
     case DELETE_ENTITY_OPTIMISTIC:
       return _.assign({}, state, {
         isDeleteEntityInProgress: true
@@ -125,6 +141,5 @@ function stampNewEntity(data) {
     displayName: `new ${_.lowerCase(data.type)}`,
     description: '',
     type: data.type,
-    createdBy: ''
   })
 }

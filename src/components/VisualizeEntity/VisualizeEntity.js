@@ -24,6 +24,8 @@ class VisualizeEntity extends Component {
 
   _updateXoces(props, widget) {
     if (props.visualizedEntities && props.visualizedEntities.length > 0) {
+      // console.log('props in _updateXoces', props)
+
       let config = {
         data: {
           entities: props.visualizedEntities,                  // required!
