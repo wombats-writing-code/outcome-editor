@@ -16,7 +16,7 @@ class EntityList extends Component {
             <div key={`entity-list__${entity._id}`} className="entity-list__item flex-container space-between">
               <p>{entity.displayName}</p>
               <button className="button link-icon-button">
-                <img src={require('./assets/link-icon.png')} onClick={() => props.onClickLink(entity)}/>
+                <img src={require('./assets/delink-icon.png')} onClick={() => props.onClickDelete(entity)}/>
               </button>
             </div>
           )

@@ -1,21 +1,17 @@
 
 import {SELECT_ENTITY, SELECT_ENTITY_TYPE} from './selectEntity'
 import { SELECT_NEW_ENTITY, CLOSE_NEW_ENTITY } from './selectNewEntity'
+import { SELECT_EDIT_ENTITY, CLOSE_EDIT_ENTITY } from './selectEditEntity'
+import {CHANGE_EDIT_ENTITY} from './changeEditEntity'
 import {SAVE_ENTITY_OPTIMISTIC, SAVE_ENTITY_SUCCESS} from './saveEntity'
 import {UPDATE_ENTITY_OPTIMISTIC, UPDATE_ENTITY_SUCCESS} from './updateEntity'
 import {DELETE_ENTITY_OPTIMISTIC, DELETE_ENTITY_SUCCESS} from './deleteEntity'
-import {
-  SELECT_EDIT_ENTITY,
-  CLOSE_EDIT_ENTITY
-} from './selectEditEntity'
-import {
-  SELECT_EDIT_LINK, SELECT_LINK_TARGET,
-  SAVE_EDIT_LINK_OPTIMISTIC, SAVE_EDIT_LINK_SUCCESS,
-  CLOSE_EDIT_LINK
-} from './selectEditLink'
 
-import {CHANGE_EDIT_ENTITY} from './changeEditEntity'
+import {SELECT_ADD_RELATIONSHIP, SELECT_RELATIONSHIP_TARGET, CLOSE_ADD_RELATIONSHIP} from './selectAddRelationship'
+import {SAVE_RELATIONSHIP_OPTIMISTIC, SAVE_RELATIONSHIP_SUCCESS} from './saveRelationship'
+import {DELETE_RELATIONSHIP_OPTIMISTIC, DELETE_RELATIONSHIP_SUCCESS} from './deleteRelationship'
 
+import {HAS_PARENT_OF, HAS_PREREQUISITE_OF} from '../mapping'
 
 export const invisibleProperties = ['type', 'learningObjectiveId', 'domain', 'auditTrail']
 export const uneditableProperties = ['type', 'learningObjectiveId', 'domain', 'id', 'auditTrail']
@@ -108,31 +104,60 @@ export default function editorReducer(state = defaultState, action) {
     // ------------
     // editing links
     // ------------
-    case SELECT_EDIT_LINK:
+    case SELECT_ADD_RELATIONSHIP:
       return _.assign({}, state, {
-        isEditLinkInProgress: true,
-        currentSourceEntity: action.data.source,
-        currentTargetEntity: action.data.target,
-        currentRelationshipType: action.data.type
+        isAddRelationshipInProgress: true,
+        currentRelationshipCopy: stampNewRelationship(action.data),
       })
 
-    case SELECT_LINK_TARGET:
+    case SELECT_RELATIONSHIP_TARGET:
       return _.assign({}, state, {
-        currentTargetEntity: action.entity
+        currentRelationshipCopy: _.assign({}, state.currentRelationshipCopy, {
+          targetId: action.entityId
+        })
       })
 
-    case SAVE_EDIT_LINK_OPTIMISTIC:
+    case SAVE_RELATIONSHIP_OPTIMISTIC:
       return _.assign({}, state, {
-        isSave: action.entity
+        isSaveRelationshipInProgress: true
       })
 
-    case CLOSE_EDIT_LINK:
+    case SAVE_RELATIONSHIP_SUCCESS:
       return _.assign({}, state, {
-        isEditLinkInProgress: false
+        isAddRelationshipInProgress: false,
+        isSaveRelationshipInProgress: false,
+        currentRelationshipCopy: null
+      })
+
+    case CLOSE_ADD_RELATIONSHIP:
+      return _.assign({}, state, {
+        isAddRelationshipInProgress: false,
+        currentRelationshipCopy: null,
+      })
+
+    case DELETE_RELATIONSHIP_OPTIMISTIC:
+      return _.assign({}, state, {
+        isDeleteRelationshipInProgress: true,
+      })
+
+    case DELETE_RELATIONSHIP_SUCCESS:
+      return _.assign({}, state, {
+        isDeleteRelationshipInProgress: false,
       })
 
     default:
       return state
+  }
+}
+
+function stampNewRelationship(data) {
+  console.log('data', data);
+  return {
+    domain: data.domain,
+    sourceId: data.source.id,
+    targetId: null,
+    directionality: getDirectionality(data.type),
+    type: data.type
   }
 }
 
@@ -142,4 +167,12 @@ function stampNewEntity(data) {
     description: '',
     type: data.type,
   })
+}
+
+function getDirectionality(type) {
+  if (type === 'IS_RELATED_TO') {
+    return 'UNDIRECTED'
+  }
+
+  return 'DIRECTED'
 }

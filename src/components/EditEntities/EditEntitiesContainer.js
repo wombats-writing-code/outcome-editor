@@ -5,15 +5,18 @@ import _ from 'lodash'
 import {selectEntity} from '../../reducers/editor/selectEntity'
 import {selectNewEntity} from '../../reducers/editor/selectNewEntity'
 import {selectEditEntity} from '../../reducers/editor/selectEditEntity'
-import {selectEditLink} from '../../reducers/editor/selectEditLink'
 import {deleteEntity} from '../../reducers/editor/deleteEntity'
+
+import {selectAddRelationship} from '../../reducers/editor/selectAddRelationship'
+import {deleteRelationship} from '../../reducers/editor/deleteRelationship'
+
 import {parentTypeSelector} from '../../selectors/'
 
 import EditEntities from './EditEntities'
 
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('state in EditEntities container', state)
+  // console.log('state in EditEntities container', state)
 
   return {
     collection: state.mapping.currentCollection,
@@ -25,10 +28,11 @@ const mapStateToProps = (state, ownProps) => {
     editingEntityTypeParent: parentTypeSelector(state),
     relationshipTypes: relationshipTypesSelector(state),
     visualizedEntities: visualizeEntitiesSelector(state),
-    isEditLinkInProgress: state.editor.isEditLinkInProgress,
     isEditEntityInProgress: state.editor.isEditEntityInProgress,
     isNewEntityInProgress: state.editor.isNewEntityInProgress,
-    isDeleteEntityInProgress: state.editor.isDeleteEntityInProgress
+    isDeleteEntityInProgress: state.editor.isDeleteEntityInProgress,
+
+    isAddRelationshipInProgress: state.editor.isAddRelationshipInProgress,
   }
 }
 
@@ -37,8 +41,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onSelectEntity: (entity) => dispatch(selectEntity(entity)),
     onClickNewEntity: (entityType, domain) => dispatch(selectNewEntity(entityType, domain)),
     onClickEditEntity: (entity) => dispatch(selectEditEntity(entity)),
-    onClickEditLink: (data) => dispatch(selectEditLink(data)),
-    onDeleteEntity: entity => dispatch(deleteEntity(entity))
+    onDeleteEntity: entity => dispatch(deleteEntity(entity)),
+
+    onClickAddRelationship: data => dispatch(selectAddRelationship(data)),
+    onClickDeleteRelationship: (relationship) => dispatch(deleteRelationship(relationship)),
   }
 }
 

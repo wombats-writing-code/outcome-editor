@@ -14,6 +14,8 @@ export const keywordSearch = (haystack, needle) => {
   let re = new RegExp(partQ, 'gi');
   let matching = re.test(haystack);
 
+  // console.log('matching', haystack, needle)
+
   return matching;
 }
 

@@ -3,6 +3,9 @@ import {SAVE_ENTITY_SUCCESS} from '../editor/saveEntity'
 import {UPDATE_ENTITY_SUCCESS} from '../editor/updateEntity'
 import {DELETE_ENTITY_SUCCESS} from '../editor/deleteEntity'
 
+import {SAVE_RELATIONSHIP_SUCCESS} from '../editor/saveRelationship'
+import {DELETE_RELATIONSHIP_SUCCESS} from '../editor/deleteRelationship'
+
 export const SELECT_COLLECTION = 'SELECT_COLLECTION'
 
 export function selectCollection(collection) {
@@ -73,9 +76,24 @@ export default function mappingReducer(state = defaultState, action) {
         })
       })
 
+    case SAVE_RELATIONSHIP_SUCCESS:
+      return _.assign({}, state, {
+        map: _.assign({}, state.map, {
+          relationships: _.concat(state.map.relationships, action.relationship)
+        })
+      })
+
+    case DELETE_RELATIONSHIP_SUCCESS:
+      return _.assign({}, state, {
+        map: _.assign({}, state.map, {
+          relationships: _.reject(state.map.relationships, {id: action.relationship.id})
+        })
+      })
+
     default:
       return state
   }
 }
 
 export const HAS_PARENT_OF = 'HAS_PARENT_OF'
+export const HAS_PREREQUISITE_OF = 'HAS_PREREQUISITE_OF'

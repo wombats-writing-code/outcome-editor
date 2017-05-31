@@ -6,10 +6,11 @@ import xoces from 'xoces'
 
 const graphProvider = xoces.libs.graphProvider
 
+import {HAS_PREREQUISITE_OF} from '../../reducers/mapping'
 import {keywordSearch} from '../../selectors/'
 
 import EntityInfo from '../EntityInfo'
-import EditLink from '..//EditLink'
+import AddRelationship from '../AddRelationship'
 import EditEntity from '../EditEntity'
 import EntityList from '../EntityList'
 import VisualizeEntity from '../VisualizeEntity'
@@ -94,12 +95,12 @@ class EditEntities extends Component {
           <div>
             <div className="flex-container space-between align-center edit-entities__section-bar">
               <p className="bold edit-entities__section-title">{_.capitalize(props.editingEntityTypeParent)}</p>
-              <button className="button link-button">Link a {_.capitalize(props.editingEntityTypeParent)}</button>
+              <button className="button link-button">Relationship a {_.capitalize(props.editingEntityTypeParent)}</button>
             </div>
 
             <EntityList currentEntity={props.currentEntity}
                         entities={this.graph ? this.graph.getParentsAll(props.currentEntity.id, props.map.entities, props.map.relationships) : null}
-                        onClickLink={(entity) => props.onClickEditLink({source: props.currentEntity, target: entity, type: props.collection.relationship.parentType})}
+                        onClickRelationship={(entity) => props.onClickAddRelationship({target: entity, type: props.collection.relationship.parentType, domain: props.collection.domain})}
                       />
           </div>
         )
@@ -112,18 +113,19 @@ class EditEntities extends Component {
 
 
       if (props.currentEntity.type === _.last(props.collection.hierarchy)) {
+
         editPrerequisites = (
           <div>
             <div className="flex-container space-between align-center edit-entities__section-bar">
               <p className="bold edit-entities__section-title">Prerequisites</p>
-              <button className="button link-button" onClick={() => props.onClickEditLink()}>
+              <button className="button link-button" onClick={() => props.onClickAddRelationship({source: props.currentEntity, type: HAS_PREREQUISITE_OF, domain: props.collection.domain})}>
                 Add a prereq
               </button>
             </div>
 
             <EntityList currentEntity={props.currentEntity}
                         entities={this.graph ? this.graph.getOutgoingEntities(props.currentEntity.id, props.map.entities, props.map.relationships) : []}
-                        onClickLink={(entity) => props.onClickEditLink({source: props.currentEntity, target: entity})}
+                        onClickDelete={(entity) => this._onClickDeleteRelationship(props.currentEntity, entity, HAS_PREREQUISITE_OF)}
                       />
           </div>
         )
@@ -139,10 +141,10 @@ class EditEntities extends Component {
       )
     }
 
-    let editLink;
-    if (props.isEditLinkInProgress) {
-      editLink = (
-        <EditLink />
+    let addRelationship;
+    if (props.isAddRelationshipInProgress) {
+      addRelationship = (
+        <AddRelationship />
       )
     }
 
@@ -181,7 +183,7 @@ class EditEntities extends Component {
 
 
         {editEntity}
-        {editLink}
+        {addRelationship}
 
         <div className="row">
           <div className="medium-5 columns">
@@ -200,6 +202,17 @@ class EditEntities extends Component {
 
       </div>
     )
+  }
+
+  _onClickDeleteRelationship(source, target, relationshipType) {
+    let relationship = this.graph.getOutgoingEdges(source.id, target.id, relationshipType, this.props.map.relationships)[0];
+    this.props.onClickDeleteRelationship(relationship);
+
+    // this.props.onClickDeleteRelationship({
+    //   relationships: this.graph.getOutgoingEdges(source.id, target.id, relationshipType, this.props.map.relationships),
+    //   source,
+    //   target,
+    // })
   }
 
   _onClickDelete() {

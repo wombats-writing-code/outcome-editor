@@ -9,10 +9,10 @@ import xoces from 'xoces'
 const graphProvider = xoces.libs.graphProvider
 
 import {keywordSearch} from '../../selectors/'
-import './EditLink.scss'
+import './AddRelationship.scss'
 
 
-class EditLink extends Component {
+class AddRelationship extends Component {
 
   constructor(props) {
     super(props);
@@ -29,9 +29,9 @@ class EditLink extends Component {
   render() {
     let props = this.props;
 
-    if (!props.isEditLinkInProgress || !this.graph) return null;
+    if (!props.isAddRelationshipInProgress || !this.graph) return null;
 
-    // console.log('props of EditLink', props)
+    // console.log('props of AddRelationship', props)
 
     let prompt;
     if (props.relationshipType === props.collection.relationship.parentType) {
@@ -44,16 +44,16 @@ class EditLink extends Component {
       )
     }
 
-    let sourceParent = this.graph.getParent(props.sourceEntity.id, props.map.entities, props.map.relationships)
-    let targetParent = this.graph.getParent(props.targetEntity ? props.targetEntity.id : null, props.map.entities, props.map.relationships)
+    let sourceParent = this.graph.getParent(props.source.id, props.map.entities, props.map.relationships)
+    let targetParent = this.graph.getParent(props.target ? props.target.id : null, props.map.entities, props.map.relationships)
     // console.log('sourceParent', sourceParent)
 
     return (
       <div className="large-8 columns large-centered">
-        <Modal isOpen={props.isEditLinkInProgress} contentLabel="edit-link-modal">
+        <Modal isOpen={props.isAddRelationshipInProgress} contentLabel="edit-link-modal">
           <div className="flex-container space-between">
             <div className="flex-container align-center">
-              <p className="entity-name">{props.sourceEntity[props.collection.displayKey]}</p>
+              <p className="entity-name">{props.source[props.collection.displayKey]}</p>
               <p className="parent-label-for-entity">{sourceParent ? sourceParent[props.collection.displayKey] : null}</p>
             </div>
             <button className="button transparent" onClick={() => props.onClickClose()}>X</button>
@@ -65,39 +65,35 @@ class EditLink extends Component {
             <div className="medium-8 columns">
               <Select className="edit-link__select-entity-dropdown"
                 name="form-field-name"
-                value={props.targetEntity ? props.targetEntity : null}
+                value={props.target ? props.target : null}
                 labelKey="displayName"
-                filterOption={keywordSearch}
+                filterOption={(d, searchQuery) => keywordSearch(d.displayName, searchQuery)}
                 options={props.entities}
-                onChange={(entity) => props.onSelectLinkTarget(entity)}
+                onChange={(entity) => props.onSelectRelationshipTarget(entity ? entity.id : null)}
               />
             </div>
             <div className="medium-4 columns">
-              <p className="parent-label-for-entity">{targetParent ? targetParent[props.collection.displayKey] : 'No parent'}</p>
+              <p className="parent-label-for-entity">{targetParent ? targetParent[props.collection.displayKey] : ''}</p>
             </div>
           </div>
 
-
           <div className="row">
-            <div className="medium-push-7 medium-5 large-4 columns">
+            <div className="columns">
               <div className="flex-container link-outcome-modal__controls">
                 <button className="button transparent" onClick={(e) => {e.preventDefault(); props.onClickClose()}}>Cancel</button>
-                <button className="button" disabled={props.isUpdateLinkInProgress}
-                        onClick={(e) => props.onSaveEditLink({source: props.sourceEntity, target: props.targetEntity, type: props.relationshipType})}>
-                        {props.isUpdateLinkInProgress ? 'Working...' : 'Save'}
+                <button className="button" disabled={props.isSaveRelationshipInProgress || !props.relationship.targetId}
+                        onClick={() => props.onSaveRelationship(props.relationship)}>
+                        {props.isSaveRelationshipInProgress ? 'Working...' : 'Save'}
                 </button>
               </div>
             </div>
           </div>
-
-
         </Modal>
       </div>
-
     )
   }
 
 
 }
 
-export default EditLink
+export default AddRelationship
