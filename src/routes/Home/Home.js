@@ -29,16 +29,17 @@ class Home extends Component {
     return (
       <div>
         <div className="row">
-          <h2>{props.currentCollection ? props.currentCollection.displayName : null}</h2>
 
-          <div className="flex-container align-center columns">
+          <div className="flex-container align-center columns select-entity-type">
+            <p className="home__collection-name mute small">{props.currentCollection ? props.currentCollection.displayName : null}:</p>
+
             {_.map(props.currentCollection.hierarchy, name => {
               let activeClass = name === props.editingEntityType ? 'is-active' : null;
 
               return (
                 <button className={`button select-entity-type-button ${activeClass}`} key={`button ${name}`}
                         onClick={() => props.onSelectEntityType(name)}>
-                  {name}
+                  {_.capitalize(name)}
                 </button>
               )
             })}

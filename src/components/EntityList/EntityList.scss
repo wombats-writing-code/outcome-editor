@@ -12,7 +12,7 @@
 .entity-list__item {
   font-size: .875rem;
   text-align: left;
-  padding: .425rem 1rem .25rem 1rem;
+  padding: .425rem .1rem .25rem 1rem;
   border-bottom: 1px solid #ccc;
 }
 
@@ -20,7 +20,17 @@
   margin-bottom: 0;
 }
 
+.entity-list__item-name {
+  flex: 2;
+}
+
+.entity-list__item-control {
+  flex: 1.5;
+}
+
 .link-icon-button {
+  margin-left: auto;
+  margin-right: 0;
   border-radius: 4px;
   width: 1.8rem;
   height: 1.8rem;
@@ -35,4 +45,25 @@
 
 .link-icon-button:hover, .link-icon-button:focus {
   background: #f0f0f0;
+}
+
+.entity-list__confirm-delete {
+  cursor: default;
+  color: $app-red;
+  margin-left: 1em;
+  margin-right: .9em;
+  display: inline-block;
+}
+
+.entity-list__confirm-delete:hover {
+  text-decoration: underline;
+}
+
+.entity-list__cancel-delete {
+  cursor: default;
+  display: inline-block;
+}
+
+.entity-list__cancel-delete:hover {
+  opacity: .7;
 }

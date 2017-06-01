@@ -57,7 +57,11 @@ class VisualizeEntity extends Component {
     return (
       <div>
         <div className="flex-container space-between align-center edit-entities__section-bar">
-          <p className="bold edit-entities__section-title">Visualize</p>
+          <p className="bold edit-entities__section-title">
+            Visualize &nbsp;
+            <span className="light small mute italic">
+              Most fundamental outcomes are on top, leading to more downstream outcomes on the bottom. The ENTIRE chain is shown.</span>
+          </p>
         </div>
         <div id="xoces-container"></div>
       </div>

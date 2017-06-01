@@ -20,6 +20,7 @@ const mapStateToProps = (state, ownProps) => {
     relationship,
     source: relationship ? _.find(state.mapping.map.entities, {id: relationship.sourceId}) : null,
     target: relationship ? _.find(state.mapping.map.entities, {id: relationship.targetId}) : null,
+    parentType: parentTypeSelector(state),
     isAddRelationshipInProgress: state.editor.isAddRelationshipInProgress,
   }
 }
@@ -59,7 +60,7 @@ const validEntitiesSelector = (state) => {
 
   return _.filter(map.entities, e => {
     return e.type === source.type &&                        // must be of same type
-          existingSources.indexOf(e.id) === -1 &&          // can't be a source 
+          existingSources.indexOf(e.id) === -1 &&          // can't be a source
           existingTargets.indexOf(e.id) === -1 &&         // can't already be an existing prereq
           e.id !== source.id;                             // can't be itself
   });

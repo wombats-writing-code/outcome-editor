@@ -16,7 +16,7 @@ export function saveRelationship(relationship) {
   return function(dispatch) {
     dispatch(saveRelationshipOptimistic())
 
-    console.log('saveRelationship data', relationship);
+    // console.log('saveRelationship data', relationship);
 
     return axios({
       url: `${getDomain()}/api/mapping/relationships`,

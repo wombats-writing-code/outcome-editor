@@ -6,7 +6,7 @@ import xoces from 'xoces'
 
 const graphProvider = xoces.libs.graphProvider
 
-import {HAS_PREREQUISITE_OF} from '../../reducers/mapping'
+import {HAS_PREREQUISITE_OF, HAS_PARENT_OF} from '../../reducers/mapping'
 import {keywordSearch} from '../../selectors/'
 
 import EntityInfo from '../EntityInfo'
@@ -68,6 +68,7 @@ class EditEntities extends Component {
         confirmDelete = (
           <div className="confirm-delete__wrapper">
             <input type="text" className="input confirm-delete__input small" value={this.state.confirmDeleteValue}
+                  placeholder={`Paste in the ID of the ${_.lowerCase(props.editingEntityType)} to confirm delete`}
                   onChange={(e) => this.setState({confirmDeleteValue: e.target.value})}/>
             <button className="button confirm-delete small" disabled={props.isDeleteEntityInProgress}
                     onClick={() => this._onConfirmDelete(props.currentEntity)}>
@@ -90,24 +91,25 @@ class EditEntities extends Component {
         </div>
       )
 
+      visualizeEntity = (
+        <VisualizeEntity relationships={props.map.relationships}
+            visualizedEntities={props.visualizedEntities} />
+      )
+
       if (props.currentEntity.type !== _.first(props.collection.hierarchy)) {
         editParents = (
           <div>
             <div className="flex-container space-between align-center edit-entities__section-bar">
               <p className="bold edit-entities__section-title">{_.capitalize(props.editingEntityTypeParent)}</p>
-              <button className="button link-button">Relationship a {_.capitalize(props.editingEntityTypeParent)}</button>
+              <button className="button link-button" onClick={() => props.onClickAddRelationship({source: props.currentEntity, type: HAS_PARENT_OF, domain: props.collection.domain})}>
+                &#8853; Link {_.capitalize(props.editingEntityTypeParent)}</button>
             </div>
 
             <EntityList currentEntity={props.currentEntity}
-                        entities={this.graph ? this.graph.getParentsAll(props.currentEntity.id, props.map.entities, props.map.relationships) : null}
-                        onClickRelationship={(entity) => props.onClickAddRelationship({target: entity, type: props.collection.relationship.parentType, domain: props.collection.domain})}
+                        entities={this.graph ? this.graph.getParents(props.currentEntity.id, props.map.entities, props.map.relationships) : null}
+                        onClickDelete={(entity) => this._onClickDeleteRelationship(props.currentEntity, entity, HAS_PARENT_OF)}
                       />
           </div>
-        )
-
-        visualizeEntity = (
-          <VisualizeEntity relationships={props.map.relationships}
-              visualizedEntities={props.visualizedEntities} />
         )
       }
 
@@ -119,7 +121,7 @@ class EditEntities extends Component {
             <div className="flex-container space-between align-center edit-entities__section-bar">
               <p className="bold edit-entities__section-title">Prerequisites</p>
               <button className="button link-button" onClick={() => props.onClickAddRelationship({source: props.currentEntity, type: HAS_PREREQUISITE_OF, domain: props.collection.domain})}>
-                Add a prereq
+                &#8853; Link prereq
               </button>
             </div>
 

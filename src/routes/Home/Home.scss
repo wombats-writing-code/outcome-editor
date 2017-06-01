@@ -1,33 +1,48 @@
 @import '../../styles/core';
 
-.duck {
-  display: block;
-  width: 120px;
-  margin: 1.5rem auto;
-}
-
-
-.entity-list {
+.home__collection-name {
   text-align: left;
-
+  font-weight: 600;
+  margin-right: 1rem;
+  color: #888;
+  margin-bottom: .5rem;
 }
 
-.entity-list__item-name {
-  cursor: default;
-}
-
-.entity-list__item-name:hover {
-  opacity: .8
+.select-entity-type {
+  // border-bottom: 1px solid #ccc;
+  margin-bottom: 1rem;
 }
 
 .select-entity-type-button, .select-entity-type-button:focus {
-  background: #f8f8f8;
+  background: transparent;
   color: #333;
+  // background: #f8f8f8;
+  // color: #333;
+  margin-bottom: .5rem;
   margin-right: 1rem;
-  text-transform: capitalize;
+  margin-left: 1rem;
+  position: relative;
 }
 
+.select-entity-type-button:hover {
+  background: transparent;
+  color: $app-green;
+}
+
+.select-entity-type-button:not(:last-child)::after {
+  position: absolute;
+  font-size: 1.1rem;
+  right: -1.5rem;
+  top: .5rem;
+  color: #333;
+  content: '\02282';
+}
+
+
 .select-entity-type-button.is-active {
-  color: #fff;
-  background: $app-green;
+  color: $app-green;
+  background: transparent;
+  font-weight: 600;
+  // color: #fff;
+  // background: $app-green;
 }

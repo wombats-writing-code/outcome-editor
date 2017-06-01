@@ -151,7 +151,6 @@ export default function editorReducer(state = defaultState, action) {
 }
 
 function stampNewRelationship(data) {
-  console.log('data', data);
   return {
     domain: data.domain,
     sourceId: data.source.id,

@@ -1,6 +1,8 @@
 import { connect } from 'react-redux'
 import {createSelector} from 'reselect'
 import _ from 'lodash'
+import xoces from 'xoces'
+const graphProvider = xoces.libs.graphProvider
 
 import {selectEntity} from '../../reducers/editor/selectEntity'
 import {selectNewEntity} from '../../reducers/editor/selectNewEntity'
@@ -50,19 +52,24 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const visualizeEntitiesSelector = createSelector([
   state => state.mapping.map,
+  state => state.mapping.currentCollection,
   state => state.editor.currentEntity
-], (mapping, currentEntity) => {
+], (mapping, collection, currentEntity) => {
 
   if (!currentEntity) return;
 
+  let graph = graphProvider({...collection.relationship})
+
+
   let entity = _.find(mapping.entities, {id: currentEntity.id});
   let entities;
-  // if the entity is an outcome, get ALL of its prerequisites
+  // if the entity is an outcome, get ALL of its prerequisites (the entire chain)
   if (entity && entity.type === 'OUTCOME') {
-    let rels = _.filter(mapping.relationships, {sourceId: entity.id, type: 'HAS_PREREQUISITE_OF'});
-    let prereqs = _.map(rels, r => _.find(mapping.entities, {id: r.targetId}));
+    // let rels = _.filter(mapping.relationships, {sourceId: entity.id, type: 'HAS_PREREQUISITE_OF'});
+    // let prereqs = _.map(rels, r => _.find(mapping.entities, {id: r.targetId}));
+    let prereqs = graph.getOutgoingEntitiesAll(entity.id, mapping.entities, mapping.relationships)
 
-    entities = _.concat(entity, prereqs);
+    entities = _.uniq(_.concat(entity, prereqs));
 
   } else {
     // if the entity is a module, get the children

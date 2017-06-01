@@ -21,7 +21,8 @@ const defaultState = {
   currentCollection: {
     displayName: 'College Algebra',
     domain: "58a7969bf36d287948269839",
-    hierarchy: ['INSTITUTION', 'MODULE', 'OUTCOME'],
+    // hierarchy: ['INSTITUTION', 'MODULE', 'OUTCOME'],
+    hierarchy: ['MODULE', 'OUTCOME'],
     relationship: {
       parentType: 'HAS_PARENT_OF',
       sourceRef: 'sourceId',

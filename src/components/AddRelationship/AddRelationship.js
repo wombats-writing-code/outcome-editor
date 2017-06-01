@@ -33,14 +33,24 @@ class AddRelationship extends Component {
 
     // console.log('props of AddRelationship', props)
 
-    let prompt;
-    if (props.relationshipType === props.collection.relationship.parentType) {
+    let prompt, parentLabel;
+    if (props.relationship.type === props.collection.relationship.parentType) {
       prompt = (
-        <p>Select a parent</p>
+        <p>
+          <span className="mute">Select a {_.lowerCase(props.parentType)} for</span> &nbsp;
+          <span className="entity-name">{props.source[props.collection.displayKey]}</span>
+        </p>
       )
     } else {
       prompt = (
-        <p>Select a prerequisite</p>
+        <p>
+          <span className="mute">Select a prerequisite for </span>
+          <span className="entity-name">{props.source[props.collection.displayKey]}</span>
+        </p>
+      )
+
+      parentLabel = (
+        <p className="parent-label-for-entity">{sourceParent ? sourceParent[props.collection.displayKey] : null}</p>
       )
     }
 
@@ -49,17 +59,15 @@ class AddRelationship extends Component {
     // console.log('sourceParent', sourceParent)
 
     return (
-      <div className="large-8 columns large-centered">
+      <div className="row">
         <Modal isOpen={props.isAddRelationshipInProgress} contentLabel="edit-link-modal">
           <div className="flex-container space-between">
             <div className="flex-container align-center">
-              <p className="entity-name">{props.source[props.collection.displayKey]}</p>
-              <p className="parent-label-for-entity">{sourceParent ? sourceParent[props.collection.displayKey] : null}</p>
+              {prompt}
+              {parentLabel}
             </div>
             <button className="button transparent" onClick={() => props.onClickClose()}>X</button>
           </div>
-
-          {prompt}
 
           <div className="row">
             <div className="medium-8 columns">
