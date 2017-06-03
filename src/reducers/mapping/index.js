@@ -1,3 +1,4 @@
+import {GET_COLLECTIONS_OPTIMISTIC, GET_COLLECTIONS_SUCCESS} from './getCollections'
 import {GET_MAPPING_OPTIMISTIC, GET_MAPPING_SUCCESS} from './getMapping'
 import {SAVE_ENTITY_SUCCESS} from '../editor/saveEntity'
 import {UPDATE_ENTITY_SUCCESS} from '../editor/updateEntity'
@@ -13,30 +14,18 @@ export function selectCollection(collection) {
 }
 
 const defaultState = {
-  // currentCollection: {
-  //   displayName: 'SUTD',
-  //   hierarchy: ['institution', 'pillar', 'subject', 'outcome'],
-  //   domain: "58a7969bf36d287948269839"
-  // },
-  currentCollection: {
-    displayName: 'College Algebra',
-    domain: "58a7969bf36d287948269839",
-    // hierarchy: ['INSTITUTION', 'MODULE', 'OUTCOME'],
-    hierarchy: ['MODULE', 'OUTCOME'],
-    relationship: {
-      parentType: 'HAS_PARENT_OF',
-      sourceRef: 'sourceId',
-      targetRef: 'targetId'
-    },
-    relationshipTypes: ['HAS_PREREQUISITE_OF', 'HAS_PARENT_OF'],
-    displayKey: 'displayName'
-  }
 }
 export default function mappingReducer(state = defaultState, action) {
   switch(action.type) {
+    case GET_COLLECTIONS_SUCCESS:
+      return _.assign({}, state, {
+        collections: action.collections,
+      })
+
     case SELECT_COLLECTION:
       return _.assign({}, state, {
-        currentCollection: action.collection
+        currentCollection: action.collection,
+        map: null
       })
 
     case GET_MAPPING_OPTIMISTIC:

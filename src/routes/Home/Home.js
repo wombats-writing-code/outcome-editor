@@ -3,6 +3,7 @@ import _ from 'lodash'
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 
+import Header from '../../components/Header'
 import EditEntities from '../../components/EditEntities'
 
 import './Home.scss'
@@ -11,13 +12,16 @@ import './Home.scss'
 class Home extends Component {
 
   componentDidMount() {
-    if (this.props.currentCollection) {
-      this.props.onSelectCollection(this.props.currentCollection)
+    console.log('user', this.props.user)
+    if (this.props.user) {
+      this.props.getCollections(this.props.user.collections);
     }
   }
 
   render() {
     let props = this.props;
+
+
 
     let editEntities;
     if (props.editingEntityType) {
@@ -26,10 +30,10 @@ class Home extends Component {
       )
     }
 
-    return (
-      <div>
+    let collectionBody;
+    if (props.currentCollection) {
+      collectionBody = (
         <div className="row">
-
           <div className="flex-container align-center columns select-entity-type">
             <p className="home__collection-name mute small">{props.currentCollection ? props.currentCollection.displayName : null}:</p>
 
@@ -50,6 +54,17 @@ class Home extends Component {
           </div>
         </div>
 
+      )
+    }
+
+
+    return (
+      <div>
+        <Header currentCollection={props.currentCollection} collections={props.collections} onSelect={props.onSelectCollection}
+                onLogout={props.onLogout}
+        />
+
+        {collectionBody}
 
       </div>
     )

@@ -7,3 +7,24 @@ export function getDomain() {
 
   return '';
 }
+
+export function arrayEncode(array, query, isFirst) {
+  if (!array || !query) return '';
+
+  let string;
+  if (array.length === 1) {
+    if (isFirst) {
+      string = `?${query}=` + array[0];
+    } else {
+      string = `&${query}=` + array[0];
+    }
+
+  } else {
+    string = _.reduce(array, (result, value) => {
+      result += `&${query}=` + value;
+      return result;
+    }, '');
+  }
+
+  return string;
+}

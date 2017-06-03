@@ -11,18 +11,19 @@ export const Header = (props) => (
     <div className="flex-container align-center wrap">
       <p className="header__title">Graph Studio</p>
       <Select className="select-collection" placeholder="Select a collection"
-              value="one"
+              value={props.currentCollection}
               labelKey={"displayName"}
               options={props.collections}
-              onChange={(d) => props.onSelectCollection(d)}
+              onChange={(d, e) => props.onSelect(d, e)}
             />
     </div>
 
+    <button className="button transparent" onClick={() => props.onLogout()}>Logout</button>
 
 
-    <IndexLink to='/' activeClassName='route--active'>
+    {/* <IndexLink to='/' activeClassName='route--active'>
       Home
-    </IndexLink>
+    </IndexLink> */}
     {/* {' · '}
     <Link to='/counter' activeClassName='route--active'>
       Counter

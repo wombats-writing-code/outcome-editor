@@ -15,6 +15,21 @@ class AppContainer extends Component {
     return false
   }
 
+  componentDidMount() {
+    let store = this.props.store;
+    let state = store.getState();
+    if (!state.login.isLoggedIn) {
+      browserHistory.push('/login')
+    }
+
+    store.subscribe(() => {
+      let newState = store.getState();
+      if (!newState.login.isLoggedIn) {
+        window.location.reload()
+      }
+    })
+  }
+
   render () {
     const { routes, store } = this.props
 

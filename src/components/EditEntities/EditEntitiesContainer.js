@@ -56,7 +56,7 @@ const visualizeEntitiesSelector = createSelector([
   state => state.editor.currentEntity
 ], (mapping, collection, currentEntity) => {
 
-  if (!currentEntity) return;
+  if (!mapping || !currentEntity) return;
 
   let graph = graphProvider({...collection.relationship})
 

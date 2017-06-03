@@ -24,23 +24,24 @@ export default (initialState = {}) => {
     if (typeof composeWithDevToolsExtension === 'function') {
       composeEnhancers = composeWithDevToolsExtension
     }
-
-    // enhancers.push(persistState(null, {
-    //   slicer: paths => state => {
-    //     if (state) {
-    //       let subset = {
-    //         mapping: state.mapping,
-    //         login: state.login,
-    //         location: state.location,
-    //       };
-    //
-    //       return subset;
-    //     }
-    //
-    //     return state;
-    //   },
-    // }))
   }
+
+  enhancers.push(persistState(null, {
+    slicer: paths => state => {
+      if (state) {
+        let subset = {
+          login: {
+            isLoggedIn: state.login.isLoggedIn,
+            user: state.login.user
+          }
+        };
+
+        return subset;
+      }
+
+      return state;
+    },
+  }))
 
 
 

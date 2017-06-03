@@ -1,0 +1,87 @@
+@import '../../styles/core';
+
+
+.login {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: $app-blue-dark;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login__title {
+  color: #d8d8d8;
+  margin-bottom: 4.5rem;
+}
+
+
+.login__input, .login__input:focus {
+  width: 100%;
+  color: #fff;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-radius: 0;
+  border-bottom: 2px solid $app-blue-2;
+  margin-bottom: 1rem;
+  padding-left: 2rem;
+  background-position: 0 50%;
+  background-repeat: no-repeat;
+  background-size: 1rem;
+}
+
+.login__input.username {
+  background-image: url('./assets/user-icon.png');
+  margin-bottom: 2rem;
+}
+
+
+.login__input.password {
+  background-image: url('./assets/password-icon.png');
+  margin-bottom: 2rem;
+}
+
+.login__input:focus {
+  border-color: $app-green;
+}
+
+
+.login__button {
+  font-weight: 500;
+  width: 100%;
+}
+
+.login__error-message {
+  color: $app-red;
+  font-size: .875rem;
+}
+
+.login__footer {
+  border-top: 1px solid rgba(#fff, 0.5);
+  margin-top: 4.5rem;
+  padding-top: 1.5rem;
+}
+
+.login__footer-logo {
+  width: 40px;
+  height: auto;
+  margin-right: 1rem;
+  float: left;
+}
+
+.login__footer-text {
+  font-size: .8rem;
+  color: #ccc;
+  float: left;
+}
+
+.login__link {
+  color: $app-green;
+}

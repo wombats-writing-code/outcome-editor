@@ -34,7 +34,7 @@ class EditEntities extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.props.collection) return;
+    if (!this.props.collection || !this.props.map) return ;
 
     if (this.props.isDeleteEntityInProgress !== nextProps.isDeleteEntityInProgress) {
       this.setState({
@@ -53,7 +53,7 @@ class EditEntities extends Component {
   render() {
     let props = this.props;
 
-    if (!props.editingEntityType || !props.collection) {
+    if (!props.editingEntityType || !props.collection || !props.map) {
       return null;
     }
 

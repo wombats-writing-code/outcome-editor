@@ -1,4 +1,6 @@
 
+import {SELECT_COLLECTION} from '../mapping/'
+
 import {SELECT_ENTITY, SELECT_ENTITY_TYPE} from './selectEntity'
 import { SELECT_NEW_ENTITY, CLOSE_NEW_ENTITY } from './selectNewEntity'
 import { SELECT_EDIT_ENTITY, CLOSE_EDIT_ENTITY } from './selectEditEntity'
@@ -22,6 +24,12 @@ const defaultState = {
 }
 export default function editorReducer(state = defaultState, action) {
   switch(action.type) {
+    case SELECT_COLLECTION:
+      return _.assign({}, state, {
+        currentEntity: null,
+        editingEntityType: null
+      })
+
     case SELECT_ENTITY_TYPE:
       return _.assign({}, state, {
         editingEntityType: action.entityType,

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {getDomain} from '../utilities'
+import {getDomain, arrayEncode} from '../utilities'
 
 export const GET_MAPPING_OPTIMISTIC = 'GET_MAPPING_OPTIMISTIC'
 export const GET_MAPPING_SUCCESS = 'GET_MAPPING_SUCCESS'
@@ -42,20 +42,4 @@ export function getMapping(collection, data) {
       console.error('error in getMapping', err)
     })
   }
-}
-
-export function arrayEncode(array, query) {
-  if (!array || !query) return '';
-
-  let string;
-  if (array.length === 1) {
-    string = `&${query}=` + array[0];
-  } else {
-    string = _.reduce(array, (result, value) => {
-      result += `&${query}=` + value;
-      return result;
-    }, '');
-  }
-
-  return string;
 }
