@@ -15,6 +15,7 @@ const mapStateToProps = (state, ownProps) => {
   // console.log('state in home container', state)
 
   return {
+    isLoggedIn: state.login.isLoggedIn,
     user: state.login.user,
     collections: state.mapping.collections,
     currentCollection: state.mapping.currentCollection,

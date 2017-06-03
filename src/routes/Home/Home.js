@@ -18,6 +18,12 @@ class Home extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.isLoggedIn && !this.props.isLoggedIn) {
+      window.location.reload()
+    }
+  }
+
   render() {
     let props = this.props;
 

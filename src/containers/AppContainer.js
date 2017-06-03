@@ -23,13 +23,6 @@ class AppContainer extends Component {
     if (!state.login.isLoggedIn) {
       browserHistory.push(`${PUBLIC_PATH}/login`)
     }
-
-    store.subscribe(() => {
-      let newState = store.getState();
-      if (!newState.login.isLoggedIn) {
-        window.location.reload()
-      }
-    })
   }
 
   render () {
