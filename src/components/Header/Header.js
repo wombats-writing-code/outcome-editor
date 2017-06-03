@@ -18,7 +18,7 @@ export const Header = (props) => (
             />
     </div>
 
-    <button className="button transparent" onClick={() => props.onLogout()}>Logout</button>
+    <button className="button transparent logout" onClick={() => props.onLogout()}>Logout</button>
 
 
     {/* <IndexLink to='/' activeClassName='route--active'>

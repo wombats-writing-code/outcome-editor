@@ -16,11 +16,11 @@ export function getCollections(collectionIds) {
   return function(dispatch) {
     dispatch(getCollectionsOptimistic())
 
-    let collectionIdsString = arrayEncode(collectionIds, 'collectionIds', true)
+    let collectionIdsString = arrayEncode(collectionIds, 'collectionIds')
 
     return axios.request({
       method: 'get',
-      url: `${getDomain()}/api/collections${collectionIdsString}`,
+      url: `${getDomain()}/api/collections?all=false&${collectionIdsString}`,
       data: {collectionIds}
     })
     .then( res => {

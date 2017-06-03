@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react'
 import { browserHistory, Router } from 'react-router'
 import { Provider } from 'react-redux'
 
+import {PUBLIC_PATH} from '../utilities'
+
 import '../styles/foundation.css'
 import '../styles/core.scss'
 
@@ -19,7 +21,7 @@ class AppContainer extends Component {
     let store = this.props.store;
     let state = store.getState();
     if (!state.login.isLoggedIn) {
-      browserHistory.push('/login')
+      browserHistory.push(`${PUBLIC_PATH}/login`)
     }
 
     store.subscribe(() => {

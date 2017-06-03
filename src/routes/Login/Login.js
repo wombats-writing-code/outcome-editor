@@ -6,6 +6,7 @@ import 'react-select/dist/react-select.css';
 
 import Header from '../../components/Header'
 import EditEntities from '../../components/EditEntities'
+import {PUBLIC_PATH} from '../../utilities'
 
 import './Login.scss'
 
@@ -22,7 +23,7 @@ class Login extends Component {
 
   componentDidUpdate(prevProps) {
     if (!prevProps.isLoggedIn && this.props.isLoggedIn) {
-      return browserHistory.push('/')
+      return browserHistory.push(`${PUBLIC_PATH}`)
     }
   }
 

@@ -12,7 +12,7 @@ import './Home.scss'
 class Home extends Component {
 
   componentDidMount() {
-    console.log('user', this.props.user)
+    // console.log('user', this.props.user)
     if (this.props.user) {
       this.props.getCollections(this.props.user.collections);
     }
