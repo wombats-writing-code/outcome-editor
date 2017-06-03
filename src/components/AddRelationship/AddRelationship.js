@@ -35,12 +35,26 @@ class AddRelationship extends Component {
 
     let prompt, parentLabel;
     if (props.relationship.type === props.collection.relationship.parentType) {
-      prompt = (
-        <p>
-          <span className="mute">Select a {_.lowerCase(props.parentType)} for</span> &nbsp;
-          <span className="entity-name">{props.source[props.collection.displayKey]}</span>
-        </p>
-      )
+
+      // if the sourde is specified, then it means we want to select a parent
+      // if (props.source) {
+        prompt = (
+          <p>
+            <span className="mute">Select a {_.lowerCase(props.parentType)} for</span> &nbsp;
+            <span className="entity-name">{props.source[props.collection.displayKey]}</span>
+          </p>
+        )
+
+      // if the target is specified, then it means we want to selet a child
+      // } else {
+      //   prompt = (
+      //     <p>
+      //       <span className="mute">Select a child {_.lowerCase(props.childType)} for</span> &nbsp;
+      //       <span className="entity-name">{props.target[props.collection.displayKey]}</span>
+      //     </p>
+      //   )
+      // }
+
     } else {
       prompt = (
         <p>
@@ -54,9 +68,10 @@ class AddRelationship extends Component {
       )
     }
 
-    let sourceParent = this.graph.getParent(props.source.id, props.map.entities, props.map.relationships)
+    let sourceParent = this.graph.getParent(props.source ? props.source.id : null, props.map.entities, props.map.relationships)
     let targetParent = this.graph.getParent(props.target ? props.target.id : null, props.map.entities, props.map.relationships)
     // console.log('sourceParent', sourceParent)
+    console.log('props.target', props.target)
 
     return (
       <div className="row">
@@ -73,11 +88,11 @@ class AddRelationship extends Component {
             <div className="medium-8 columns">
               <Select className="edit-link__select-entity-dropdown"
                 name="form-field-name"
-                value={props.target ? props.target : null}
+                value={this._getEntityValue()}
                 labelKey="displayName"
                 filterOption={(d, searchQuery) => keywordSearch(d.displayName, searchQuery)}
                 options={props.entities}
-                onChange={(entity) => props.onSelectRelationshipTarget(entity ? entity.id : null)}
+                onChange={(entity) => this._onSelectEntity(entity)}
               />
             </div>
             <div className="medium-4 columns">
@@ -99,6 +114,26 @@ class AddRelationship extends Component {
         </Modal>
       </div>
     )
+  }
+
+  _getEntityValue() {
+    return this.props.target;
+    // if (this.props.source) {
+    //   return this.props.target;
+    // }
+    //
+    // return this.props.source;
+  }
+
+  _onSelectEntity(entity) {
+    if (!entity) return;
+
+    // if (this.props.source) {
+      this.props.onSelectRelationshipTarget(entity.id)
+
+    // } else if (this.props.target) {
+    //   this.props.onSelectRelationshipSource(entity.id)
+    // }
   }
 
 

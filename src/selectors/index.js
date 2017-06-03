@@ -27,3 +27,12 @@ export const parentTypeSelector = state => {
 
   return state.mapping.currentCollection.hierarchy[idx-1];
 }
+
+export const childTypeSelector = state => {
+  if (!state.mapping) return null;
+
+  // console.log('state.mapping', state.mapping)
+  let idx = state.mapping.currentCollection.hierarchy.indexOf(state.editor.editingEntityType)
+
+  return state.mapping.currentCollection.hierarchy[idx+1];
+}

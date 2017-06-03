@@ -57,7 +57,7 @@ class EditEntities extends Component {
       return null;
     }
 
-    let entityInfo, editEntityButtons, editParents, editPrerequisites, visualizeEntity;
+    let entityInfo, editEntityButtons, editParents, editChildren, editPrerequisites, visualizeEntity;
     if (props.currentEntity) {
       entityInfo = (
         <EntityInfo entity={props.currentEntity} />
@@ -113,9 +113,28 @@ class EditEntities extends Component {
         )
       }
 
+      // the last level CANNOT have children
+      if (props.currentEntity.type !== _.last(props.collection.hierarchy)) {
+        editChildren = (
+          <div>
+            <div className="flex-container space-between align-center edit-entities__section-bar">
+              <p className="bold edit-entities__section-title">{_.capitalize(props.editingEntityTypeChild)}s</p>
+              {/* <button className="button link-button"
+                      onClick={() => props.onClickAddRelationship({target: props.currentEntity, type: HAS_PARENT_OF, domain: props.collection.domain})}>
+                &#8853; Link {_.capitalize(props.editingEntityTypeChild)}</button> */}
+            </div>
 
+            <EntityList currentEntity={props.currentEntity}
+                        entities={this.graph ? this.graph.getChildren(props.currentEntity.id, props.map.entities, props.map.relationships) : null}
+                        onClickDelete={(entity) => this._onClickDeleteRelationship(entity, props.currentEntity, HAS_PARENT_OF)}
+                      />
+          </div>
+        )
+      }
+
+
+      // only the last level can have prerequisite linkages
       if (props.currentEntity.type === _.last(props.collection.hierarchy)) {
-
         editPrerequisites = (
           <div>
             <div className="flex-container space-between align-center edit-entities__section-bar">
@@ -193,6 +212,9 @@ class EditEntities extends Component {
           </div>
           <div className="medium-7 columns">
             {editPrerequisites}
+          </div>
+          <div className="medium-12 columns">
+            {editChildren}
           </div>
         </div>
 

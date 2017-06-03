@@ -2,9 +2,9 @@ import { connect } from 'react-redux'
 import {createSelector} from 'reselect'
 import _ from 'lodash'
 
-import {closeAddRelationship, selectRelationshipTarget} from '../../reducers/editor/selectAddRelationship'
+import {closeAddRelationship, selectRelationshipTarget, selectRelationshipSource} from '../../reducers/editor/selectAddRelationship'
 import {saveRelationship} from '../../reducers/editor/saveRelationship'
-import {parentTypeSelector} from '../../selectors/'
+import {parentTypeSelector, childTypeSelector} from '../../selectors/'
 
 import AddRelationship from './AddRelationship'
 
@@ -12,6 +12,8 @@ import AddRelationship from './AddRelationship'
 const mapStateToProps = (state, ownProps) => {
   // console.log('state.editor in AddRelationship container', state.editor)
   let relationship = state.editor.currentRelationshipCopy;
+
+  console.log('relationship', relationship)
 
   return {
     collection: state.mapping.currentCollection,
@@ -21,6 +23,7 @@ const mapStateToProps = (state, ownProps) => {
     source: relationship ? _.find(state.mapping.map.entities, {id: relationship.sourceId}) : null,
     target: relationship ? _.find(state.mapping.map.entities, {id: relationship.targetId}) : null,
     parentType: parentTypeSelector(state),
+    childType: childTypeSelector(state),
     isAddRelationshipInProgress: state.editor.isAddRelationshipInProgress,
   }
 }
@@ -28,6 +31,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onSelectRelationshipTarget: (entityId) => dispatch(selectRelationshipTarget(entityId)),
+    onSelectRelationshipSource: (entityId) => dispatch(selectRelationshipSource(entityId)),
     onUpdateRelationship: data => dispatch(updateRelationship(data)),
     onSaveRelationship: (data) => dispatch(saveRelationship(data)),
     onClickClose: () => dispatch(closeAddRelationship())
@@ -46,7 +50,6 @@ const validEntitiesSelector = (state) => {
 
   if (state.editor.currentRelationshipCopy.type === state.mapping.currentCollection.relationship.parentType) {
     let parentEntityType = parentTypeSelector(state);
-
     // valid entities are only of its parent type,
     return _.filter(map.entities, {type: parentEntityType});
   }

@@ -125,6 +125,13 @@ export default function editorReducer(state = defaultState, action) {
         })
       })
 
+    case SELECT_RELATIONSHIP_TARGET:
+      return _.assign({}, state, {
+        currentRelationshipCopy: _.assign({}, state.currentRelationshipCopy, {
+          sourceId: action.entityId
+        })
+      })
+
     case SAVE_RELATIONSHIP_OPTIMISTIC:
       return _.assign({}, state, {
         isSaveRelationshipInProgress: true
@@ -161,8 +168,8 @@ export default function editorReducer(state = defaultState, action) {
 function stampNewRelationship(data) {
   return {
     domain: data.domain,
-    sourceId: data.source.id,
-    targetId: null,
+    sourceId: data.source ? data.source.id : null,
+    targetId: data.target ? data.target.id : null,
     directionality: getDirectionality(data.type),
     type: data.type
   }

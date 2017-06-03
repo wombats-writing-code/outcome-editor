@@ -12,7 +12,7 @@ import {deleteEntity} from '../../reducers/editor/deleteEntity'
 import {selectAddRelationship} from '../../reducers/editor/selectAddRelationship'
 import {deleteRelationship} from '../../reducers/editor/deleteRelationship'
 
-import {parentTypeSelector} from '../../selectors/'
+import {parentTypeSelector, childTypeSelector} from '../../selectors/'
 
 import EditEntities from './EditEntities'
 
@@ -28,6 +28,8 @@ const mapStateToProps = (state, ownProps) => {
     currentEntity: state.editor.currentEntity,
     editingEntityType: state.editor.editingEntityType,
     editingEntityTypeParent: parentTypeSelector(state),
+    editingEntityTypeChild: childTypeSelector(state),
+
     relationshipTypes: relationshipTypesSelector(state),
     visualizedEntities: visualizeEntitiesSelector(state),
     isEditEntityInProgress: state.editor.isEditEntityInProgress,
