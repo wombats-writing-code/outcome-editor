@@ -18,6 +18,11 @@ class EntityList extends Component {
 
     if (!props.entities || props.entities.length === 0) return null;
 
+    let clickableStyle;
+    if (props.isClickable) {
+      clickableStyle = 'is-clickable'
+    }
+
     return (
       <div className="entity-list">
         {_.map(props.entities, entity => {
@@ -33,7 +38,7 @@ class EntityList extends Component {
 
           return (
             <div key={`entity-list__${entity._id}`} className="entity-list__item flex-container space-between">
-              <p className="entity-list__item-name">{entity.displayName}</p>
+              <p className={`entity-list__item-name ${clickableStyle}`} onClick={() => this._onClick(entity)}>{entity.displayName}</p>
               <div className="flex-container align-center entity-list__item-control">
                 <button className="button link-icon-button">
                   <img src={require('./assets/delink-icon.png')} onClick={() => this.setState({isConfirmDeleteVisible: entity})}/>
@@ -46,6 +51,12 @@ class EntityList extends Component {
         })}
       </div>
     )
+  }
+
+  _onClick(entity) {
+    if (this.props.isClickable) {
+      this.props.onClick(entity)
+    }
   }
 
   _onClickDelete(entity) {

@@ -108,6 +108,7 @@ class EditEntities extends Component {
             <EntityList currentEntity={props.currentEntity}
                         entities={this.graph ? this.graph.getParents(props.currentEntity.id, props.map.entities, props.map.relationships) : null}
                         onClickDelete={(entity) => this._onClickDeleteRelationship(props.currentEntity, entity, HAS_PARENT_OF)}
+                        isClickable={true} onClick={(entity) => props.onSelectEntity(entity)}
                       />
           </div>
         )
@@ -127,6 +128,7 @@ class EditEntities extends Component {
             <EntityList currentEntity={props.currentEntity}
                         entities={this.graph ? this.graph.getChildren(props.currentEntity.id, props.map.entities, props.map.relationships) : null}
                         onClickDelete={(entity) => this._onClickDeleteRelationship(entity, props.currentEntity, HAS_PARENT_OF)}
+                        isClickable={true} onClick={(entity) => props.onSelectEntity(entity)}
                       />
           </div>
         )

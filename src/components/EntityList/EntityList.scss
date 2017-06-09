@@ -24,6 +24,12 @@
   flex: 2;
 }
 
+.entity-list__item-name.is-clickable:hover {
+  cursor: default;
+  color: $app-green;
+  text-decoration: underline;
+}
+
 .entity-list__item-control {
   flex: 1.5;
 }

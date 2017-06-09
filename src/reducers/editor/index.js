@@ -39,6 +39,7 @@ export default function editorReducer(state = defaultState, action) {
     case SELECT_ENTITY:
       return _.assign({}, state, {
         currentEntity: action.entity,
+        editingEntityType: action.entity.type
       })
 
     // ---- creating a new entity ----
