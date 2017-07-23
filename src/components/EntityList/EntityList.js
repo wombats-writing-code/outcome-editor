@@ -26,6 +26,8 @@ class EntityList extends Component {
     return (
       <div className="entity-list">
         {_.map(props.entities, entity => {
+          if (!entity) return null;
+          
           let confirmDelete;
           if (this.state.isConfirmDeleteVisible === entity) {
             confirmDelete = (
